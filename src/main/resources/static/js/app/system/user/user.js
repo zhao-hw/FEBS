@@ -9,7 +9,7 @@ $(function () {
                 pageNum: params.offset / params.limit + 1,
                 username: $userTableForm.find("input[name='username']").val().trim(),
                 ssex: $userTableForm.find("select[name='ssex']").val(),
-                status: $userTableForm.find("select[name='status']").val()
+                status: $userTableForm.find("select[name='status']").val(),
             };
         },
         columns: [{
@@ -23,6 +23,9 @@ $(function () {
         }, {
             field: 'deptName',
             title: '部门'
+        }, {
+            field: 'roleName',
+            title: '角色'
         }, {
             field: 'email',
             title: '邮箱'
@@ -68,6 +71,7 @@ function deleteUsers() {
     var selected = $("#userTable").bootstrapTable('getSelections');
     var selected_length = selected.length;
     var contain = false;
+    var selected_username = new Array();
     if (!selected_length) {
         $MB.n_warning('请勾选需要删除的用户！');
         return;
@@ -77,6 +81,7 @@ function deleteUsers() {
         ids += selected[i].userId;
         if (i !== (selected_length - 1)) ids += ",";
         if (userName === selected[i].username) contain = true;
+        selected_username[i] = selected[i].username;
     }
     if (contain) {
         $MB.n_warning('勾选用户中包含当前登录用户，无法删除！');
@@ -84,7 +89,7 @@ function deleteUsers() {
     }
 
     $MB.confirm({
-        text: "确定删除选中用户？",
+        text: "确定删除选中用户？"+selected_username,
         confirmButtonText: "确定删除"
     }, function () {
         $.post(ctx + 'user/delete', {"ids": ids}, function (r) {

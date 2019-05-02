@@ -42,11 +42,15 @@
   </select>
   
     
-  <select id="findUserWithRole" resultType="userWithRole">
+  <select id="findUserWithRole" resultType="UserWithRole">
 		select u.user_id userId,u.username,u.dept_id deptId,u.email,u.mobile,
 		u.status,u.ssex,ur.role_id roleId from t_user u
 		left join t_user_role ur on (u.user_id = ur.user_id)
 		where u.user_id = #{userId}
+  </select>
+
+  <select id="findUserDetail" resultType="string" parameterType="long">
+	  SELECT ROLE_NAME FROM t_role r LEFT JOIN t_user_role ur ON r.ROLE_ID=ur.ROLE_ID LEFT JOIN t_user u ON u.USER_ID=ur.USER_ID WHERE u.USER_ID = #{userId}
   </select>
   
   <select id="findUserProfile" resultType="user" parameterType="user">

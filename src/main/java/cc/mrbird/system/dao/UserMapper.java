@@ -13,4 +13,6 @@ public interface UserMapper extends MyMapper<User> {
 	List<UserWithRole> findUserWithRole(Long userId);
 	
 	User findUserProfile(User user);
+
+	String findUserDetail(Long userId);
 }

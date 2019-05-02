@@ -52,7 +52,13 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Override
     public List<User> findUserWithDept(User user, QueryRequest request) {
         try {
-            return this.userMapper.findUserWithDept(user);
+//            return this.userMapper.findUserWithDept(user);
+            List<User> userWithDept = this.userMapper.findUserWithDept(user);
+            for (User item:userWithDept) {
+                String username = this.userMapper.findUserDetail(item.getUserId());
+                item.setRoleName(username);
+            }
+            return userWithDept;
         } catch (Exception e) {
             log.error("error", e);
             return new ArrayList<>();
